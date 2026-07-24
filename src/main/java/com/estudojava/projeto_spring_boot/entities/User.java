@@ -1,19 +1,24 @@
 package com.estudojava.projeto_spring_boot.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_user") // A palavra User já usada no banco de dados H2
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
@@ -21,6 +26,10 @@ public class User implements Serializable {
 	String email;
 	String phone;
 	String password;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
+	List<Order> orders = new ArrayList<Order>();
 
 	public User() {
 	}
@@ -72,6 +81,10 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 	@Override
