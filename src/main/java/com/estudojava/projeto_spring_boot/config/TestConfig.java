@@ -9,24 +9,28 @@ import org.springframework.context.annotation.Profile;
 
 import com.estudojava.projeto_spring_boot.entities.Category;
 import com.estudojava.projeto_spring_boot.entities.Order;
+import com.estudojava.projeto_spring_boot.entities.Product;
 import com.estudojava.projeto_spring_boot.entities.User;
 import com.estudojava.projeto_spring_boot.entities.enums.OrderStatus;
 import com.estudojava.projeto_spring_boot.repositories.CategoryRepository;
 import com.estudojava.projeto_spring_boot.repositories.OrderRepository;
+import com.estudojava.projeto_spring_boot.repositories.ProductRepository;
 import com.estudojava.projeto_spring_boot.repositories.UserRepository;
 
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
 	
+	private final ProductRepository productRepository;
 	private final CategoryRepository categoryRepository;
 	private final UserRepository userRepository;
 	private final OrderRepository orderRepository;
 
-	TestConfig(UserRepository userRepository, OrderRepository ordeRepository, CategoryRepository categoryRepository) {
+	TestConfig(UserRepository userRepository, OrderRepository ordeRepository, CategoryRepository categoryRepository, ProductRepository productRepository) {
 		this.userRepository = userRepository;
 		this.orderRepository = ordeRepository;
 		this.categoryRepository = categoryRepository;
+		this.productRepository = productRepository;
 	}
 
 	@Override
@@ -46,6 +50,12 @@ public class TestConfig implements CommandLineRunner {
 		Category cat3 = new Category(null, "Computers");
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		
+		Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+		Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+		Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+		Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 		
 	}
 
