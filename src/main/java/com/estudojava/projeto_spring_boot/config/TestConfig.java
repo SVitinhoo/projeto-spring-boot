@@ -3,16 +3,19 @@ package com.estudojava.projeto_spring_boot.config;
 import java.time.Instant;
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.estudojava.projeto_spring_boot.entities.Category;
 import com.estudojava.projeto_spring_boot.entities.Order;
+import com.estudojava.projeto_spring_boot.entities.OrderItem;
 import com.estudojava.projeto_spring_boot.entities.Product;
 import com.estudojava.projeto_spring_boot.entities.User;
 import com.estudojava.projeto_spring_boot.entities.enums.OrderStatus;
 import com.estudojava.projeto_spring_boot.repositories.CategoryRepository;
+import com.estudojava.projeto_spring_boot.repositories.OrderItemRepository;
 import com.estudojava.projeto_spring_boot.repositories.OrderRepository;
 import com.estudojava.projeto_spring_boot.repositories.ProductRepository;
 import com.estudojava.projeto_spring_boot.repositories.UserRepository;
@@ -25,12 +28,14 @@ public class TestConfig implements CommandLineRunner {
 	private final CategoryRepository categoryRepository;
 	private final UserRepository userRepository;
 	private final OrderRepository orderRepository;
+	private final OrderItemRepository orderItemRepository;
 
-	TestConfig(UserRepository userRepository, OrderRepository ordeRepository, CategoryRepository categoryRepository, ProductRepository productRepository) {
+	TestConfig(UserRepository userRepository, OrderRepository ordeRepository, CategoryRepository categoryRepository, ProductRepository productRepository, OrderItemRepository orderItemRepository) {
 		this.userRepository = userRepository;
 		this.orderRepository = ordeRepository;
 		this.categoryRepository = categoryRepository;
 		this.productRepository = productRepository;
+		this.orderItemRepository = orderItemRepository;
 	}
 
 	@Override
@@ -57,6 +62,18 @@ public class TestConfig implements CommandLineRunner {
 		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 		
+		p1.getCategories().add(cat2);
+		p2.getCategories().addAll(Arrays.asList(cat1, cat3));
+		p3.getCategories().add(cat3);
+		p4.getCategories().add(cat3);
+		p5.getCategories().add(cat2);
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 	}
 
 }
