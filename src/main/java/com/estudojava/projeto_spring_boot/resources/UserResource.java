@@ -42,7 +42,8 @@ public class UserResource {
 	@PostMapping
 	public ResponseEntity<User> insert(@RequestBody User obj) {
 		obj = service.insert(obj);
-		return ResponseEntity.status(HttpStatus.CREATED).body(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).body(obj);
 	}
 	
 	@DeleteMapping(value = "/{id}")
