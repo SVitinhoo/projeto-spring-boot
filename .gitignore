@@ -104,5 +104,7 @@ nb-configuration.xml
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Base de dados fictícia
+pgdata/
 
 

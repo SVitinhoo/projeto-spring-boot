@@ -1,0 +1,14 @@
+services:
+  postgres-db:
+    image: postgres:15
+    container_name: postgres_spring
+    environment:
+      POSTGRES_DB: db_pg
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234567
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
